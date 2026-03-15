@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>My Learning World | મારી શીખ દુનિયા | मेरी पढ़ाई की दुनिया</title>
+<meta name="author" content="Sachin Singh">
+<meta name="description" content="A trilingual kids learning website in English, Hindi and Gujarati — designed and developed by Sachin Singh.">
+<meta name="copyright" content="© 2026 Sachin Singh. All Rights Reserved.">
+<meta property="og:title" content="My Learning World by Sachin Singh">
+<meta property="og:description" content="Fun learning for kids in English, Hindi & Gujarati — with quizzes and progress tracking.">
+<meta name="robots" content="index, follow">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:#4A90D9; --purple:#9B7FD4; --green:#3EBF8A; --coral:#FF7F7F;
+  --yellow:#FFD93D; --orange:#FFB347; --pink:#FF9FB2; --teal:#4ECDC4;
+  --dark:#1a1a2e; --body:#34495e; --soft:#7f8c8d; --bg:#f0f8ff;
+  --white:#fff; --card:#fff; --radius:18px; --radius-sm:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow-x:hidden}
+body{font-family:'Baloo 2',cursive;background:var(--bg);color:var(--dark);font-size:15px}
+
+/* LANG SELECTOR */
+.lang-bar{display:flex;gap:0;background:var(--dark);justify-content:center;padding:8px 16px;gap:8px}
+.lang-btn{flex:1;max-width:110px;padding:8px 10px;border-radius:30px;border:2px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.6);font-family:'Baloo 2',cursive;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;text-align:center}
+.lang-btn.active{background:var(--yellow);color:var(--dark);border-color:var(--yellow)}
+
+/* TOPBAR */
+.topbar{background:linear-gradient(135deg,var(--blue),var(--purple));padding:13px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-title{font-size:19px;font-weight:800;color:white;letter-spacing:0.3px;line-height:1.2}
+.topbar-title small{display:block;font-size:11px;font-weight:600;opacity:0.8;letter-spacing:0.5px}
+.star-badge{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.2);border-radius:20px;padding:5px 12px;font-size:13px;color:white;font-weight:800}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#4A90D9 0%,#9B7FD4 100%);padding:26px 20px 30px;text-align:center;color:white;position:relative;overflow:hidden}
+.hero::before,.hero::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,0.07)}
+.hero::before{width:180px;height:180px;top:-50px;right:-40px}
+.hero::after{width:130px;height:130px;bottom:-40px;left:-30px}
+.hero-icon{font-size:50px;display:block;margin-bottom:8px;position:relative;z-index:1}
+.hero h2{font-size:22px;font-weight:800;margin-bottom:5px;position:relative;z-index:1;line-height:1.3}
+.hero p{font-size:13px;opacity:0.9;line-height:1.6;position:relative;z-index:1}
+
+/* SECTION */
+.sec-label{font-size:12px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:1px;padding:16px 16px 8px}
+
+/* TOPIC GRID */
+.topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 12px 12px}
+.topic-card{background:var(--card);border-radius:var(--radius);padding:14px 6px 12px;text-align:center;cursor:pointer;border:2.5px solid #eee;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.topic-card:active{transform:scale(0.94)}
+.topic-card .ti{font-size:32px;display:block;margin-bottom:5px}
+.topic-card .tn{font-size:11px;font-weight:800;color:var(--dark);line-height:1.3}
+.topic-card .ts-name{font-size:10px;font-weight:600;color:var(--soft);margin-top:2px;line-height:1.2}
+
+/* LESSON */
+#lessonScreen{display:none}
+.lesson-hdr{padding:14px 14px 0;display:flex;align-items:center;gap:10px}
+.back-btn{background:white;border:none;border-radius:50%;width:38px;height:38px;font-size:17px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.topic-badge{font-size:13px;font-weight:800;padding:6px 14px;border-radius:20px;color:white}
+
+/* TEACHER BUBBLE */
+.teacher-wrap{margin:12px 14px 0;background:white;border-radius:var(--radius);padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.08);display:flex;gap:10px}
+.t-face{width:46px;height:46px;border-radius:50%;background:#E8D5FF;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.t-bubble{background:#EEF6FF;border-radius:0 14px 14px 14px;padding:11px 13px;flex:1}
+.t-tag{font-size:11px;font-weight:800;color:var(--blue);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.3px}
+.t-text{font-size:14px;line-height:1.7;color:var(--dark)}
+
+/* VISUAL CARD */
+.visual-card{margin:12px 14px 0;border-radius:var(--radius);padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.06)}
+.vis-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.img-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.img-cell{border-radius:var(--radius-sm);padding:12px 8px;text-align:center;background:rgba(255,255,255,0.65)}
+.img-cell .big{font-size:34px;display:block;margin-bottom:4px}
+.img-cell .lbl{font-size:11px;font-weight:800;line-height:1.3}
+.img-cell .lbl-sub{font-size:10px;color:var(--soft);margin-top:2px;line-height:1.2}
+.steps-col{display:flex;flex-direction:column;gap:7px}
+.step-row{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,0.65);border-radius:var(--radius-sm);padding:9px 12px}
+.step-n{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;color:white}
+.step-t{font-size:13px;font-weight:700;line-height:1.3}
+.step-t small{display:block;font-size:11px;font-weight:600;color:var(--soft)}
+.pills-wrap{display:flex;flex-wrap:wrap;gap:7px}
+.pill-item{padding:7px 14px;border-radius:30px;font-size:13px;font-weight:800}
+
+/* FACTS */
+.facts-card{margin:12px 14px 0;background:white;border-radius:var(--radius);padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07)}
+.facts-hdr{font-size:12px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.fact-row{display:flex;gap:9px;align-items:flex-start;padding-bottom:9px;margin-bottom:9px;border-bottom:1px solid #f0f0f0}
+.fact-row:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
+.fe{font-size:20px;flex-shrink:0;line-height:1.4}
+.ft{font-size:13px;line-height:1.6;color:var(--dark)}
+.ft small{display:block;font-size:12px;color:var(--soft);margin-top:2px}
+
+/* QUIZ */
+.quiz-card{margin:12px 14px 0;background:white;border-radius:var(--radius);padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07)}
+.quiz-hdr{font-size:12px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+.quiz-q{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:11px;line-height:1.5}
+.quiz-opts{display:flex;flex-direction:column;gap:7px}
+.q-opt{padding:12px 14px;border-radius:var(--radius-sm);border:2px solid #e8e8e8;background:#fafafa;font-family:'Baloo 2',cursive;font-size:13px;font-weight:700;cursor:pointer;text-align:left;display:flex;align-items:center;gap:8px;transition:all 0.1s}
+.q-opt:active{transform:scale(0.98)}
+.q-opt.correct{background:#d4f5e2;border-color:#3EBF8A;color:#1a6b40}
+.q-opt.wrong{background:#fde8e8;border-color:#FF7F7F;color:#b03030}
+.quiz-result{margin-top:10px;padding:11px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;text-align:center;display:none}
+.quiz-result.show{display:block}
+.quiz-result.win{background:#d4f5e2;color:#1a6b40}
+.quiz-result.lose{background:#fde8e8;color:#b03030}
+.next-q-btn{margin-top:9px;width:100%;padding:11px;border-radius:var(--radius-sm);border:none;background:var(--blue);color:white;font-family:'Baloo 2',cursive;font-size:13px;font-weight:800;cursor:pointer;display:none}
+.next-q-btn.show{display:block}
+
+/* EXPLORE */
+.explore-card{margin:12px 14px 18px}
+.explore-hdr{font-size:12px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:9px}
+.explore-btns{display:flex;flex-direction:column;gap:7px}
+.exp-btn{padding:12px 14px;border-radius:var(--radius-sm);border:2px solid #e8e8e8;background:white;font-family:'Baloo 2',cursive;font-size:13px;font-weight:700;color:var(--blue);cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.exp-btn:active{transform:scale(0.98)}
+
+/* QUIZ SCREEN */
+#quizScreen{display:none;padding:14px}
+#progressScreen{display:none;padding:14px}
+.screen-title{font-size:21px;font-weight:800;color:var(--dark);margin-bottom:4px}
+.screen-sub{font-size:13px;color:var(--soft);margin-bottom:14px}
+.q-topic-list{display:flex;flex-direction:column;gap:9px}
+.q-topic-item{background:white;border-radius:var(--radius);padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.07);border:none;font-family:'Baloo 2',cursive;text-align:left;width:100%}
+.q-topic-item:active{transform:scale(0.98)}
+.q-ti{font-size:28px}
+.q-tn{font-size:14px;font-weight:800;color:var(--dark)}
+.q-tc{font-size:11px;color:var(--soft);margin-top:2px}
+
+/* PROGRESS */
+.prog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.prog-card{background:white;border-radius:var(--radius);padding:14px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.prog-card .pi{font-size:26px;margin-bottom:5px}
+.prog-card .pn{font-size:22px;font-weight:800;color:var(--blue)}
+.prog-card .pl{font-size:11px;color:var(--soft);font-weight:700;margin-top:2px}
+.badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.badge-box{background:white;border-radius:var(--radius);padding:10px 6px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.badge-box .bi{font-size:26px}
+.badge-box .bn{font-size:10px;font-weight:800;color:var(--dark);margin-top:3px;line-height:1.2}
+.badge-box.locked{opacity:0.35}
+
+/* BOTTOM NAV */
+.bottom-nav{position:sticky;bottom:0;background:white;border-top:1.5px solid #eee;display:flex;z-index:100}
+.nav-btn{flex:1;padding:9px 0 7px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;border:none;background:transparent;font-family:'Baloo 2',cursive}
+.nav-btn .ni{font-size:22px}
+.nav-btn .nl{font-size:10px;font-weight:800;color:var(--soft)}
+.nav-btn.active .nl{color:var(--blue)}
+
+/* WELCOME */
+.welcome-box{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;color:var(--soft);font-size:14px;gap:8px;text-align:center;padding:20px}
+.welcome-box .wi{font-size:44px}
+
+/* ABOUT DEV */
+.about-section{margin:14px 14px 0;background:linear-gradient(135deg,#1a1a2e,#2d2d5e);border-radius:var(--radius);padding:18px;color:white}
+.about-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--yellow),var(--orange));display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:12px}
+.about-name{font-size:18px;font-weight:800;color:var(--yellow);margin-bottom:3px}
+.about-role{font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.about-desc{font-size:13px;line-height:1.7;color:rgba(255,255,255,0.85);margin-bottom:12px}
+.about-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.about-tag{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.9)}
+.contact-row{display:flex;gap:8px;flex-wrap:wrap}
+.contact-btn{padding:8px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:800;border:none;cursor:pointer;font-family:'Baloo 2',cursive}
+.contact-btn.primary{background:var(--yellow);color:var(--dark)}
+.contact-btn.secondary{background:rgba(255,255,255,0.15);color:white}
+
+/* FOOTER */
+.site-footer{background:var(--dark);color:rgba(255,255,255,0.5);text-align:center;padding:14px 16px 8px;font-size:11px;line-height:1.8;margin-bottom:4px}
+.site-footer strong{color:var(--yellow);font-weight:800}
+.site-footer .footer-divider{border:none;border-top:1px solid rgba(255,255,255,0.08);margin:10px 0}
+.made-with{font-size:11px;color:rgba(255,255,255,0.3)}
+@keyframes pop{0%{transform:scale(0.85);opacity:0}100%{transform:scale(1);opacity:1}}
+.pop-in{animation:pop 0.25s ease-out}
+</style>
+</head>
+<body>
+
+<!-- LANGUAGE BAR -->
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang('en')" id="lb-en">🇬🇧 English</button>
+  <button class="lang-btn" onclick="setLang('hi')" id="lb-hi">🇮🇳 हिन्दी</button>
+  <button class="lang-btn" onclick="setLang('gu')" id="lb-gu">🏵️ ગુજરાતી</button>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-title">
+    <span id="appTitle">🌟 My Learning World</span>
+    <small id="appSubtitle">Tap a topic to start!</small>
+  </div>
+  <div class="star-badge">⭐ <span id="starCount">0</span></div>
+</div>
+
+<!-- HOME -->
+<div id="homeScreen">
+  <div class="hero">
+    <span class="hero-icon">👩‍🏫</span>
+    <h2 id="heroTitle">Hello, Super Learner!</h2>
+    <p id="heroSub">Miss Priya will teach you something amazing. Pick a topic below!</p>
+  </div>
+  <div class="sec-label" id="chooseLabel">Choose a topic</div>
+  <div class="topic-grid" id="topicGrid"></div>
+</div>
+
+<!-- LESSON -->
+<div id="lessonScreen">
+  <div class="lesson-hdr">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <div class="topic-badge" id="lessonBadge">Topic</div>
+  </div>
+  <div class="teacher-wrap">
+    <div class="t-face">👩‍🏫</div>
+    <div class="t-bubble">
+      <div class="t-tag" id="teacherTag">Miss Priya says</div>
+      <div class="t-text" id="teacherText"></div>
+    </div>
+  </div>
+  <div class="visual-card" id="visualCard">
+    <div class="vis-title" id="visTitle"></div>
+    <div id="visContent"></div>
+  </div>
+  <div class="facts-card">
+    <div class="facts-hdr" id="factsHdr">⚡ Fun Facts</div>
+    <div id="factsContent"></div>
+  </div>
+  <div class="quiz-card">
+    <div class="quiz-hdr" id="quizHdr">🎯 Quick Quiz</div>
+    <div class="quiz-q" id="quizQ"></div>
+    <div class="quiz-opts" id="quizOpts"></div>
+    <div class="quiz-result" id="quizResult"></div>
+    <button class="next-q-btn" id="nextQBtn" onclick="nextQuiz()">Next ➜</button>
+  </div>
+  <div class="explore-card">
+    <div class="explore-hdr" id="exploreHdr">🔍 Want to know more?</div>
+    <div class="explore-btns" id="exploreContent"></div>
+  </div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div id="quizScreen">
+  <div class="screen-title" id="quizScreenTitle">🎯 Quiz Time!</div>
+  <div class="screen-sub" id="quizScreenSub">Pick a topic to test yourself</div>
+  <div class="q-topic-list" id="quizTopicList"></div>
+</div>
+
+<!-- PROGRESS SCREEN -->
+<div id="progressScreen">
+  <div class="screen-title" id="progTitle">⭐ My Progress</div>
+  <div class="prog-grid">
+    <div class="prog-card"><div class="pi">📚</div><div class="pn" id="pTopics">0</div><div class="pl" id="pTopicsL">Topics Learned</div></div>
+    <div class="prog-card"><div class="pi">⭐</div><div class="pn" id="pStars">0</div><div class="pl" id="pStarsL">Stars Earned</div></div>
+    <div class="prog-card"><div class="pi">✅</div><div class="pn" id="pRight">0</div><div class="pl" id="pRightL">Right Answers</div></div>
+    <div class="prog-card"><div class="pi">🏆</div><div class="pn" id="pBadges">0</div><div class="pl" id="pBadgesL">Badges</div></div>
+  </div>
+  <div class="sec-label" id="badgesLabel">My Badges</div>
+  <div class="badge-grid">
+    <div class="badge-box" id="b0"><div class="bi">🔭</div><div class="bn" id="bn0">Explorer</div></div>
+    <div class="badge-box locked" id="b1"><div class="bi">📖</div><div class="bn" id="bn1">Reader</div></div>
+    <div class="badge-box locked" id="b2"><div class="bi">🔬</div><div class="bn" id="bn2">Scientist</div></div>
+    <div class="badge-box locked" id="b3"><div class="bi">🌟</div><div class="bn" id="bn3">Star</div></div>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="showNav('home')">
+    <span class="ni">🏠</span><span class="nl" id="nl-home">Home</span>
+  </button>
+  <button class="nav-btn" id="nav-quiz" onclick="showNav('quiz')">
+    <span class="ni">🎯</span><span class="nl" id="nl-quiz">Quiz</span>
+  </button>
+  <button class="nav-btn" id="nav-progress" onclick="showNav('progress')">
+    <span class="ni">⭐</span><span class="nl" id="nl-prog">Progress</span>
+  </button>
+  <button class="nav-btn" id="nav-about" onclick="showNav('about')">
+    <span class="ni">👨‍💻</span><span class="nl" id="nl-about">About</span>
+  </button>
+</div>
+
+<!-- ABOUT SCREEN -->
+<div id="aboutScreen" style="display:none;padding:14px">
+  <div class="about-section">
+    <div class="about-avatar">👨‍💻</div>
+    <div class="about-name">Sachin Singh</div>
+    <div class="about-role">Designer &amp; Developer</div>
+    <div class="about-desc">
+      This website was designed and developed by <strong style="color:#FFD93D">Sachin Singh</strong> as a free learning platform for young students (age 6–10) to learn and explore topics in <strong style="color:#FFD93D">English, Hindi, and Gujarati</strong> — with fun lessons, visual diagrams, quizzes, and progress tracking.
+    </div>
+    <div class="about-tags">
+      <span class="about-tag">📚 Education</span>
+      <span class="about-tag">🌐 Trilingual</span>
+      <span class="about-tag">📱 Mobile-First</span>
+      <span class="about-tag">🆓 Free to Use</span>
+      <span class="about-tag">👧 Age 6–10</span>
+    </div>
+    <div class="contact-row">
+      <button class="contact-btn primary" onclick="alert('Contact: sachinsingh@email.com\n\nFeel free to reach out!')">✉️ Contact</button>
+      <button class="contact-btn secondary" onclick="alert('GitHub: github.com/sachinsingh\n\nStar the project if you like it! ⭐')">💻 GitHub</button>
+    </div>
+  </div>
+
+  <div style="margin:14px 0 0;background:white;border-radius:var(--radius);padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.07)">
+    <div style="font-size:13px;font-weight:800;color:var(--soft);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">📋 About this website</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:20px">🌟</span>
+        <div style="font-size:13px;line-height:1.6;color:var(--body)"><strong>9 topics</strong> covering Animals, Plants, Weather, Numbers, Reading, Body, Space, Water &amp; Colours</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:20px">🗣️</span>
+        <div style="font-size:13px;line-height:1.6;color:var(--body)"><strong>3 languages</strong> — English, हिन्दी, and ગુજરાતી — switch anytime at the top</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:20px">🎯</span>
+        <div style="font-size:13px;line-height:1.6;color:var(--body)"><strong>27 quiz questions</strong> with instant feedback and star rewards</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:flex-start">
+        <span style="font-size:20px">📵</span>
+        <div style="font-size:13px;line-height:1.6;color:var(--body)"><strong>Works offline</strong> — no internet needed after first open</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <hr class="footer-divider">
+  <div>© 2026 <strong>Sachin Singh</strong>. All Rights Reserved.</div>
+  <div>Designed &amp; Developed by <strong>Sachin Singh</strong></div>
+  <div style="margin-top:4px">My Learning World — English · हिन्दी · ગુજરાતી</div>
+  <hr class="footer-divider">
+  <div class="made-with">Made with ❤️ for young learners in India</div>
+</footer>
+
+<script>
+// ─── TRANSLATIONS ──────────────────────────────────────────────────────────
+const T = {
+  en: {
+    appTitle:"🌟 My Learning World", appSub:"Tap a topic to start!",
+    heroTitle:"Hello, Super Learner!", heroSub:"Miss Priya will teach you something amazing. Pick a topic below!",
+    chooseLabel:"Choose a topic", teacherTag:"Miss Priya says",
+    factsHdr:"⚡ Fun Facts", quizHdr:"🎯 Quick Quiz", exploreHdr:"🔍 Want to know more?",
+    nextBtn:"Next question ➜", navHome:"Home", navQuiz:"Quiz", navProg:"Progress", navAbout:"About",
+    quizScreenTitle:"🎯 Quiz Time!", quizScreenSub:"Pick a topic to test yourself",
+    progTitle:"⭐ My Progress", badgesLabel:"My Badges",
+    pTopicsL:"Topics Learned", pStarsL:"Stars Earned", pRightL:"Right Answers", pBadgesL:"Badges",
+    winMsg:"🎉 Wonderful! Correct! You earned a star!", loseMsg:"😊 Good try! See the green answer. Keep going!",
+    badgeNames:["Explorer","Reader","Scientist","Star"],
+    topics:{
+      animals:{name:"Animals",tname:"Animals"},plants:{name:"Plants",tname:"Plants"},
+      weather:{name:"Weather",tname:"Weather"},numbers:{name:"Numbers",tname:"Numbers"},
+      reading:{name:"Reading",tname:"Reading"},body:{name:"Our Body",tname:"Our Body"},
+      space:{name:"Space",tname:"Space"},water:{name:"Water",tname:"Water"},colours:{name:"Colours",tname:"Colours"}
+    }
+  },
+  hi: {
+    appTitle:"🌟 मेरी पढ़ाई की दुनिया", appSub:"एक विषय चुनें और सीखना शुरू करें!",
+    heroTitle:"नमस्ते, महान विद्यार्थी!", heroSub:"प्रिया मैम आज आपको कुछ खास सिखाएंगी। नीचे एक विषय चुनें!",
+    chooseLabel:"विषय चुनें", teacherTag:"प्रिया मैम कहती हैं",
+    factsHdr:"⚡ मज़ेदार तथ्य", quizHdr:"🎯 छोटी परीक्षा", exploreHdr:"🔍 और जानना चाहते हो?",
+    nextBtn:"अगला सवाल ➜", navHome:"होम", navQuiz:"परीक्षा", navProg:"प्रगति", navAbout:"डेवलपर",
+    quizScreenTitle:"🎯 परीक्षा का समय!", quizScreenSub:"एक विषय चुनकर खुद को परखो",
+    progTitle:"⭐ मेरी प्रगति", badgesLabel:"मेरे बैज",
+    pTopicsL:"विषय सीखे", pStarsL:"तारे मिले", pRightL:"सही जवाब", pBadgesL:"बैज",
+    winMsg:"🎉 शाबाश! बिल्कुल सही! एक तारा मिला!", loseMsg:"😊 अच्छी कोशिश! हरा जवाब देखो। आगे बढ़ते रहो!",
+    badgeNames:["खोजकर्ता","पाठक","वैज्ञानिक","सितारा"],
+    topics:{
+      animals:{name:"जानवर",tname:"जानवर"},plants:{name:"पेड़-पौधे",tname:"पेड़-पौधे"},
+      weather:{name:"मौसम",tname:"मौसम"},numbers:{name:"संख्याएँ",tname:"संख्याएँ"},
+      reading:{name:"पढ़ाई",tname:"पढ़ाई"},body:{name:"हमारा शरीर",tname:"हमारा शरीर"},
+      space:{name:"अंतरिक्ष",tname:"अंतरिक्ष"},water:{name:"पानी",tname:"पानी"},colours:{name:"रंग",tname:"रंग"}
+    }
+  },
+  gu: {
+    appTitle:"🌟 મારી શીખ દુનિયા", appSub:"એક વિષય પસંદ કરો!",
+    heroTitle:"નમસ્તે, સ્માર્ટ વિદ્યાર્થી!", heroSub:"પ્રિયા ટીચર આજે તમને કંઈક સરસ શીખવશે. નીચે એક વિષય પસંદ કરો!",
+    chooseLabel:"વિષય પસંદ કરો", teacherTag:"પ્રિયા ટીચર કહે છે",
+    factsHdr:"⚡ મઝાની વાતો", quizHdr:"🎯 નાની પ્રશ્નોત્તરી", exploreHdr:"🔍 વધુ જાણવું છે?",
+    nextBtn:"આગળનો સવાલ ➜", navHome:"હોમ", navQuiz:"પ્રશ્નોત્તરી", navProg:"પ્રગતિ", navAbout:"ડેવ",
+    quizScreenTitle:"🎯 પ્રશ્નોત્તરીનો સમય!", quizScreenSub:"એક વિષય પસંદ કરો",
+    progTitle:"⭐ મારી પ્રગતિ", badgesLabel:"મારા બેઝ",
+    pTopicsL:"વિષય શીખ્યા", pStarsL:"તારા મળ્યા", pRightL:"સાચા જવાબ", pBadgesL:"બેઝ",
+    winMsg:"🎉 શાબાશ! સાચો જવાબ! એક તારો મળ્યો!", loseMsg:"😊 સારી કોશિશ! લીલો જવાબ જુઓ. આગળ વધો!",
+    badgeNames:["અન્વેષક","વાચક","વૈજ્ઞાનિક","સ્ટાર"],
+    topics:{
+      animals:{name:"પ્રાણીઓ",tname:"પ્રાણીઓ"},plants:{name:"છોડ-વૃક્ષ",tname:"છોડ-વૃક્ષ"},
+      weather:{name:"હવામાન",tname:"હવામાન"},numbers:{name:"સંખ્યા",tname:"સંખ્યા"},
+      reading:{name:"વાંચન",tname:"વાંચન"},body:{name:"આપણું શરીર",tname:"આપણું શરીર"},
+      space:{name:"અવકાશ",tname:"અવકાશ"},water:{name:"પાણી",tname:"પાણી"},colours:{name:"રંગો",tname:"રંગો"}
+    }
+  }
+};
+
+// ─── LESSON DATA (all 3 languages) ────────────────────────────────────────
+const LESSONS = {
+  animals:{
+    color:"#FFB347", icon:"🐘",
+    en:{
+      text:"Animals are living things that can move, eat, breathe, and feel! Some live on land, some swim in water, and some fly in the sky. There are millions of types of animals all around the world!",
+      visTitle:"Types of animals",visBg:"#FFF3E0",visType:"imgcards",
+      cards:[{icon:"🦁",lbl:"Land animals",sub:""},{icon:"🐟",lbl:"Water animals",sub:""},{icon:"🦋",lbl:"Flying animals",sub:""},{icon:"🐸",lbl:"Land & water",sub:""}],
+      facts:[{e:"👃",t:"Dogs can smell 10,000 times better than humans!"},{e:"🐠",t:"Fish breathe through special parts called gills."},{e:"🦜",t:"Some parrots can learn more than 100 words!"}],
+      quizzes:[{q:"Which is a water animal?",opts:["🦁 Lion","🐟 Fish","🐘 Elephant","🐔 Chicken"],ans:1},{q:"What helps birds fly?",opts:["Scales","Fins","Feathers","Fur"],ans:2},{q:"Where do fish breathe from?",opts:["Lungs","Skin","Gills","Nose"],ans:2}],
+      explore:["What do lions eat?","How do birds fly?","Tell me about sea animals"]
+    },
+    hi:{
+      text:"जानवर वे सजीव प्राणी हैं जो चल, खा, सांस ले और महसूस कर सकते हैं! कुछ ज़मीन पर रहते हैं, कुछ पानी में तैरते हैं और कुछ आसमान में उड़ते हैं।",
+      visTitle:"जानवरों के प्रकार",visBg:"#FFF3E0",visType:"imgcards",
+      cards:[{icon:"🦁",lbl:"ज़मीनी जानवर",sub:""},{icon:"🐟",lbl:"पानी के जानवर",sub:""},{icon:"🦋",lbl:"उड़ने वाले",sub:""},{icon:"🐸",lbl:"दोनों जगह",sub:""}],
+      facts:[{e:"👃",t:"कुत्ते इंसानों से 10,000 गुना बेहतर सूंघ सकते हैं!"},{e:"🐠",t:"मछलियाँ गलफड़ों (gills) से सांस लेती हैं।"},{e:"🦜",t:"कुछ तोते 100 से अधिक शब्द बोलना सीख सकते हैं!"}],
+      quizzes:[{q:"पानी में कौन सा जानवर रहता है?",opts:["🦁 शेर","🐟 मछली","🐘 हाथी","🐔 मुर्गी"],ans:1},{q:"पक्षी उड़ने के लिए क्या उपयोग करते हैं?",opts:["शल्क","पंख","पर","फर"],ans:2},{q:"मछली कहाँ से सांस लेती है?",opts:["फेफड़े","त्वचा","गलफड़े","नाक"],ans:2}],
+      explore:["शेर क्या खाते हैं?","पक्षी कैसे उड़ते हैं?","समुद्री जानवरों के बारे में बताओ"]
+    },
+    gu:{
+      text:"પ્રાણીઓ એ જીવંત વસ્તુઓ છે જે ચાલી, ખાઈ, શ્વાસ લઈ અને અનુભવ કરી શકે છે! કેટલાક ભૂમિ પર, કેટલાક પાણીમાં અને કેટલાક આકાશમાં ઉડે છે.",
+      visTitle:"પ્રાણીઓના પ્રકારો",visBg:"#FFF3E0",visType:"imgcards",
+      cards:[{icon:"🦁",lbl:"ભૂમિ પ્રાણીઓ",sub:""},{icon:"🐟",lbl:"જળ પ્રાણીઓ",sub:""},{icon:"🦋",lbl:"ઉડતા પ્રાણીઓ",sub:""},{icon:"🐸",lbl:"ભૂમિ અને જળ",sub:""}],
+      facts:[{e:"👃",t:"કૂતરા માણસ કરતાં 10,000 ગણી સારી રીતે સૂંઘી શકે છે!"},{e:"🐠",t:"માછલીઓ ગિલ્સ (gills) દ્વારા શ્વાસ લે છે."},{e:"🦜",t:"કેટલાક પોપટ 100 થી વધારે શબ્દો શીખી શકે છે!"}],
+      quizzes:[{q:"પાણીમાં કયું પ્રાણી રહે છે?",opts:["🦁 સિંહ","🐟 માછલી","🐘 હાથી","🐔 મરઘી"],ans:1},{q:"પક્ષીઓ ઉડવા માટે શું વાપરે છે?",opts:["ભીંગડા","ફ્લિપર","પીંછા","ફર"],ans:2},{q:"માછલી ક્યાંથી શ્વાસ લે છે?",opts:["ફેફસાં","ચામડી","ગિલ્સ","નાક"],ans:2}],
+      explore:["સિંહ શું ખાય છે?","પક્ષીઓ કેવી રીતે ઉડે છે?","સમુદ્રી પ્રાણીઓ વિશે જણાવો"]
+    }
+  },
+  plants:{
+    color:"#3EBF8A", icon:"🌱",
+    en:{
+      text:"Plants are amazing living things that make their own food using sunlight, water, and air! Every plant begins as a tiny seed. They live in gardens, forests, oceans, and even deserts.",
+      visTitle:"How a plant grows",visBg:"#E8F8F0",visType:"steps",stepColor:"#3EBF8A",
+      steps:[{t:"Seed in soil",s:""},{t:"Roots grow down",s:""},{t:"Sprout comes up",s:""},{t:"Leaves open wide",s:""},{t:"Flower blooms!",s:""}],
+      facts:[{e:"☀️",t:"Plants make food from sunlight — called photosynthesis!"},{e:"🌿",t:"Leaves are like green kitchens that cook the plant's food."},{e:"🌳",t:"The tallest tree is as tall as a 35-floor building!"}],
+      quizzes:[{q:"What do plants need to make food?",opts:["Rain only","Sunlight, water & air","Soil only","Nothing"],ans:1},{q:"What part drinks water from soil?",opts:["Flower","Stem","Roots","Leaf"],ans:2},{q:"What do we call plant food-making?",opts:["Digestion","Photosynthesis","Breathing","Growing"],ans:1}],
+      explore:["What is photosynthesis?","Which plants can we eat?","How do trees grow so tall?"]
+    },
+    hi:{
+      text:"पेड़-पौधे놀라운सजीव वस्तुएँ हैं जो सूरज की रोशनी, पानी और हवा से अपना खाना खुद बनाते हैं! हर पौधा एक छोटे से बीज से शुरू होता है।",
+      visTitle:"पौधा कैसे बढ़ता है",visBg:"#E8F8F0",visType:"steps",stepColor:"#3EBF8A",
+      steps:[{t:"मिट्टी में बीज",s:""},{t:"जड़ें नीचे जाती हैं",s:""},{t:"अंकुर ऊपर आता है",s:""},{t:"पत्तियाँ खुलती हैं",s:""},{t:"फूल खिलता है!",s:""}],
+      facts:[{e:"☀️",t:"पौधे धूप से खाना बनाते हैं — इसे प्रकाश संश्लेषण कहते हैं!"},{e:"🌿",t:"पत्तियाँ हरी रसोई की तरह हैं जो पौधे का खाना पकाती हैं।"},{e:"🌳",t:"सबसे ऊँचा पेड़ 35 मंजिल जितना ऊँचा है!"}],
+      quizzes:[{q:"पौधे खाना बनाने के लिए क्या चाहिए?",opts:["सिर्फ बारिश","धूप, पानी और हवा","सिर्फ मिट्टी","कुछ नहीं"],ans:1},{q:"मिट्टी से पानी कौन पीता है?",opts:["फूल","तना","जड़ें","पत्ती"],ans:2},{q:"पौधों के खाना बनाने को क्या कहते हैं?",opts:["पाचन","प्रकाश संश्लेषण","श्वास","बढ़ना"],ans:1}],
+      explore:["प्रकाश संश्लेषण क्या है?","कौन से पौधे खा सकते हैं?","पेड़ इतने ऊँचे कैसे बढ़ते हैं?"]
+    },
+    gu:{
+      text:"છોડ-વૃક્ષ અદ્ભૂત જીવંત વસ્તુઓ છે જે સૂર્યપ્રકાશ, પાણી અને હવાથી પોતાનો ખોરાક બનાવે છે! દરેક છોડ એક નાના બીજ માંથી શરૂ થાય છે.",
+      visTitle:"છોડ કેવી રીતે ઉગે છે",visBg:"#E8F8F0",visType:"steps",stepColor:"#3EBF8A",
+      steps:[{t:"માટીમાં બીજ",s:""},{t:"મૂળ નીચે જાય",s:""},{t:"અંકૂર ઉગે",s:""},{t:"પાંદડા ખૂલે",s:""},{t:"ફૂલ ખીલે!",s:""}],
+      facts:[{e:"☀️",t:"છોડ સૂર્યપ્રકાશથી ખોરાક બનાવે છે — આને પ્રકાશ સંશ્લેષણ કહે છે!"},{e:"🌿",t:"પાંદડા હરી રસોઈ જેવા છે જ્યાં છોડ ખોરાક બનાવે છે."},{e:"🌳",t:"સૌથી ઊંચું વૃક્ષ 35 માળ જેટલું ઊંચું છે!"}],
+      quizzes:[{q:"છોડ ખોરાક બનાવવા શું જોઈએ?",opts:["ફક્ત વરસાદ","સૂર્ય, પાણી અને હવા","ફક્ત માટી","કંઈ નહીં"],ans:1},{q:"માટીમાંથી પાણી કોણ પીવે છે?",opts:["ફૂલ","ડાળ","મૂળ","પાંદડું"],ans:2},{q:"છોડના ખોરાક બનાવવાને શું કહે?",opts:["પાચન","પ્રકાશ સંશ્લેષણ","શ્વાસ","ઉછળવું"],ans:1}],
+      explore:["પ્રકાશ સંશ્લેષણ શું છે?","કયા છોડ ખઈ શકાય?","ઝાડ આટલા ઊંચા કેવી રીતે?"]
+    }
+  },
+  weather:{
+    color:"#4A90D9",icon:"🌦️",
+    en:{
+      text:"Weather tells us what it is like outside — sunny, rainy, cold, or windy! Weather changes every day. It can be different in different places around the world.",
+      visTitle:"Types of weather",visBg:"#E8F4FD",visType:"imgcards",
+      cards:[{icon:"☀️",lbl:"Sunny",sub:""},{icon:"🌧️",lbl:"Rainy",sub:""},{icon:"❄️",lbl:"Snowy",sub:""},{icon:"💨",lbl:"Windy",sub:""}],
+      facts:[{e:"☁️",t:"Clouds are made of billions of tiny water drops in the sky!"},{e:"⚡",t:"Lightning is a giant spark of electricity in the sky."},{e:"🌈",t:"Rainbows form when sunlight shines through raindrops."}],
+      quizzes:[{q:"What are clouds made of?",opts:["Cotton","Smoke","Tiny water drops","Air"],ans:2},{q:"Which weather is coldest?",opts:["Sunny","Windy","Rainy","Snowy"],ans:3},{q:"When do we see a rainbow?",opts:["Only night","Sun + rain together","Only winter","In darkness"],ans:1}],
+      explore:["Why does it rain?","How does snow form?","What causes thunder and lightning?"]
+    },
+    hi:{
+      text:"मौसम हमें बताता है बाहर कैसा है — धूप, बारिश, ठंड या हवा! मौसम हर दिन बदलता है।",
+      visTitle:"मौसम के प्रकार",visBg:"#E8F4FD",visType:"imgcards",
+      cards:[{icon:"☀️",lbl:"धूप",sub:""},{icon:"🌧️",lbl:"बारिश",sub:""},{icon:"❄️",lbl:"बर्फ़",sub:""},{icon:"💨",lbl:"हवा",sub:""}],
+      facts:[{e:"☁️",t:"बादल आकाश में अरबों छोटी-छोटी पानी की बूंदों से बने हैं!"},{e:"⚡",t:"बिजली आकाश में बिजली की एक विशाल चिंगारी है।"},{e:"🌈",t:"इंद्रधनुष तब बनता है जब धूप बारिश की बूंदों से गुज़रती है।"}],
+      quizzes:[{q:"बादल किससे बने हैं?",opts:["रूई","धुआँ","छोटी पानी की बूंदें","हवा"],ans:2},{q:"सबसे ठंडा मौसम कौन सा है?",opts:["धूप","हवा","बारिश","बर्फ़"],ans:3},{q:"इंद्रधनुष कब दिखता है?",opts:["केवल रात को","धूप + बारिश साथ","केवल सर्दी में","अंधेरे में"],ans:1}],
+      explore:["बारिश क्यों होती है?","बर्फ़ कैसे बनती है?","बिजली और गरज क्यों होती है?"]
+    },
+    gu:{
+      text:"હવામાન આપણને જણાવે છે બહાર કેવું છે — તડકો, વરસાદ, ઠંડી કે પવન! હવામાન દરરોજ બદલાય છે.",
+      visTitle:"હવામાનના પ્રકારો",visBg:"#E8F4FD",visType:"imgcards",
+      cards:[{icon:"☀️",lbl:"તડકો",sub:""},{icon:"🌧️",lbl:"વરસાદ",sub:""},{icon:"❄️",lbl:"બરફ",sub:""},{icon:"💨",lbl:"પવન",sub:""}],
+      facts:[{e:"☁️",t:"વાદળો અબજો નાના પાણીના ટીપાઓથી બનેલા છે!"},{e:"⚡",t:"વીજળી આકાશમાં વીજળીની એક વિશાળ ચિનગારી છે."},{e:"🌈",t:"ઇન્દ્રધનુષ ત્યારે બને છે જ્યારે સૂર્ય વરસાદના ટીપા માંથી પસાર થાય."}],
+      quizzes:[{q:"વાદળ શેનાથી બનેલા છે?",opts:["કપાસ","ધુમાડો","નાના પાણીના ટીપા","હવા"],ans:2},{q:"સૌથી ઠંડું હવામાન કયું?",opts:["તડકો","પવન","વરસાદ","બરફ"],ans:3},{q:"ઇન્દ્રધનુષ ક્યારે દેખાય?",opts:["ફક્ત રાત્રે","તડકો + વરસાદ","ફક્ત શિયાળે","અંધારામાં"],ans:1}],
+      explore:["વરસાદ કેમ પડે?","બરફ કેવી રીતે બને?","વીજળી અને ગડગડાટ કેમ?"]
+    }
+  },
+  numbers:{
+    color:"#FFD93D",icon:"🔢",
+    en:{
+      text:"Numbers are everywhere! We use them to count, measure, and understand the world. Every number has a special meaning and place.",
+      visTitle:"Count from 1 to 10!",visBg:"#FFFDE7",visType:"pills",pillColor:"#FFD93D22",textColor:"#7B6000",
+      pills:["1️⃣ One","2️⃣ Two","3️⃣ Three","4️⃣ Four","5️⃣ Five","6️⃣ Six","7️⃣ Seven","8️⃣ Eight","9️⃣ Nine","🔟 Ten"],
+      facts:[{e:"0️⃣",t:"Zero means nothing but is one of the most important numbers!"},{e:"➕",t:"3 + 2 = 5. Adding makes numbers bigger!"},{e:"📏",t:"We use numbers to measure how tall or heavy things are."}],
+      quizzes:[{q:"What is 4 + 3?",opts:["6","7","8","5"],ans:1},{q:"Which number comes after 9?",opts:["11","8","10","12"],ans:2},{q:"How many sides does a triangle have?",opts:["4","5","2","3"],ans:3}],
+      explore:["How do I add numbers?","What are shapes in maths?","Teach me to count to 100"]
+    },
+    hi:{
+      text:"संख्याएँ हर जगह हैं! हम उनका उपयोग गिनने, मापने और दुनिया को समझने के लिए करते हैं।",
+      visTitle:"1 से 10 तक गिनो!",visBg:"#FFFDE7",visType:"pills",pillColor:"#FFD93D22",textColor:"#7B6000",
+      pills:["१ एक","२ दो","३ तीन","४ चार","५ पाँच","६ छह","७ सात","८ आठ","९ नौ","१० दस"],
+      facts:[{e:"0️⃣",t:"शून्य का मतलब कुछ नहीं लेकिन यह सबसे महत्वपूर्ण संख्याओं में से एक है!"},{e:"➕",t:"3 + 2 = 5। जोड़ने से संख्या बड़ी होती है!"},{e:"📏",t:"हम संख्याओं से ऊँचाई और वज़न मापते हैं।"}],
+      quizzes:[{q:"4 + 3 क्या है?",opts:["6","7","8","5"],ans:1},{q:"9 के बाद कौन सी संख्या आती है?",opts:["11","8","10","12"],ans:2},{q:"त्रिभुज में कितनी भुजाएँ होती हैं?",opts:["4","5","2","3"],ans:3}],
+      explore:["संख्याएँ कैसे जोड़ें?","गणित में आकार क्या हैं?","100 तक गिनना सिखाओ"]
+    },
+    gu:{
+      text:"સંખ્યા દરેક જગ્યાએ છે! આપણે ગણવા, માપવા અને દુનિયા સમજવા માટે સંખ્યા વાપરીએ છીએ.",
+      visTitle:"1 થી 10 ગણો!",visBg:"#FFFDE7",visType:"pills",pillColor:"#FFD93D22",textColor:"#7B6000",
+      pills:["૧ એક","૨ બે","૩ ત્રણ","૪ ચાર","૫ પાંચ","૬ છ","૭ સાત","૮ આઠ","૯ નવ","૧૦ દસ"],
+      facts:[{e:"0️⃣",t:"શૂન્ય એટલે કંઈ નહીં, પણ તે સૌથી મહત્ત્વની સંખ્યાઓ પૈકીની એક છે!"},{e:"➕",t:"3 + 2 = 5. સરવાળો સંખ્યા મોટી કરે!"},{e:"📏",t:"ઊંચાઈ અને વજન માપવા સંખ્યા વાપરીએ."}],
+      quizzes:[{q:"4 + 3 = ?",opts:["6","7","8","5"],ans:1},{q:"9 પછી કઈ સંખ્યા?",opts:["11","8","10","12"],ans:2},{q:"ત્રિકોણને કેટલી બાજુઓ?",opts:["4","5","2","3"],ans:3}],
+      explore:["સંખ્યા કેવી રીતે ઉમેરવી?","ગણિતમાં આકારો શું?","100 સુધી ગણવાનું શીખવો"]
+    }
+  },
+  reading:{
+    color:"#9B7FD4",icon:"📖",
+    en:{
+      text:"Reading is your most powerful superpower! Letters make sounds, sounds make words, and words tell stories, facts, and amazing things.",
+      visTitle:"The 5 vowels — special letters!",visBg:"#F3EFFF",visType:"pills",pillColor:"#9B7FD422",textColor:"#3d1f8f",
+      pills:["A — आ/અ","E — ए/એ","I — इ/ઇ","O — ओ/ઓ","U — उ/ઉ"],
+      facts:[{e:"🔤",t:"There are 26 letters in the English alphabet."},{e:"📝",t:"Every English word has at least one vowel: A E I O U."},{e:"🧩",t:"Sounding out letters (phonics) is the secret to reading!"}],
+      quizzes:[{q:"How many letters in the English alphabet?",opts:["22","24","26","28"],ans:2},{q:"Which is a vowel?",opts:["B","E","T","S"],ans:1},{q:"What do letters make when joined?",opts:["Numbers","Shapes","Words","Colours"],ans:2}],
+      explore:["What are sight words?","How do I read faster?","What are consonants?"]
+    },
+    hi:{
+      text:"पढ़ना आपकी सबसे शक्तिशाली महाशक्ति है! अक्षर मिलकर शब्द बनाते हैं और शब्द कहानियाँ बताते हैं।",
+      visTitle:"5 स्वर — खास अक्षर!",visBg:"#F3EFFF",visType:"pills",pillColor:"#9B7FD422",textColor:"#3d1f8f",
+      pills:["अ","आ","इ","ई","उ","ऊ","ए","ऐ","ओ","औ"],
+      facts:[{e:"🔤",t:"हिंदी वर्णमाला में 52 अक्षर हैं — 16 स्वर और 36 व्यंजन।"},{e:"📝",t:"हर हिंदी शब्द में कम से कम एक स्वर होता है।"},{e:"🧩",t:"अक्षरों को जोड़कर पढ़ना सीखना पढ़ने का राज़ है!"}],
+      quizzes:[{q:"हिंदी वर्णमाला में कितने स्वर हैं?",opts:["10","12","16","20"],ans:2},{q:"इनमें से कौन सा स्वर है?",opts:["क","ग","आ","त"],ans:2},{q:"अक्षर मिलकर क्या बनाते हैं?",opts:["संख्याएँ","आकार","शब्द","रंग"],ans:2}],
+      explore:["स्वर और व्यंजन क्या हैं?","तेज़ पढ़ना कैसे सीखें?","मात्राएँ क्या हैं?"]
+    },
+    gu:{
+      text:"વાંચવું એ સૌથી શક્તિશાળી સુપરપાવર છે! અક્ષરો ભેગા થઈ શબ્દ બને, શબ્દો ભેગા થઈ વાક્ય બને.",
+      visTitle:"5 સ્વર — ખાસ અક્ષરો!",visBg:"#F3EFFF",visType:"pills",pillColor:"#9B7FD422",textColor:"#3d1f8f",
+      pills:["અ","આ","ઇ","ઈ","ઉ","ઊ","એ","ઐ","ઓ","ઔ"],
+      facts:[{e:"🔤",t:"ગુજરાતી વર્ણમાળામાં 52 અક્ષરો છે — 16 સ્વર અને 36 વ્યંજન."},{e:"📝",t:"દરેક ગુજરાતી શબ્દમાં ઓછામાં ઓછો એક સ્વર હોય છે."},{e:"🧩",t:"અક્ષરોને ભેળવી વાંચવાથી ઝડપથી વાંચતાં આવડે!"}],
+      quizzes:[{q:"ગુજરાતીમાં કેટલા સ્વર છે?",opts:["10","12","16","20"],ans:2},{q:"આ પૈકી સ્વર કોણ?",opts:["ક","ગ","આ","ત"],ans:2},{q:"અક્ષરો ભેગા થઈ શું બને?",opts:["સંખ્યા","આકાર","શબ્દ","રંગ"],ans:2}],
+      explore:["સ્વર અને વ્યંજન શું?","ઝડપથી વાંચવાનું કેવી રીતે?","જોડણી કેવી રીતે?"]
+    }
+  },
+  body:{
+    color:"#FF7F7F",icon:"🧠",
+    en:{
+      text:"Your body is the most amazing machine ever! All parts work together so you can run, think, eat, and feel. Your brain is the boss of everything!",
+      visTitle:"Important body parts",visBg:"#FFEBEE",visType:"imgcards",
+      cards:[{icon:"🧠",lbl:"Brain",sub:"Controls everything"},{icon:"❤️",lbl:"Heart",sub:"Pumps blood"},{icon:"🫁",lbl:"Lungs",sub:"Help breathe"},{icon:"🦴",lbl:"Bones",sub:"Give shape"}],
+      facts:[{e:"❤️",t:"Your heart beats 100,000 times every day — without stopping!"},{e:"🦴",t:"You have 206 bones in your body forming your skeleton."},{e:"🧠",t:"Your brain is always working — even when you sleep!"}],
+      quizzes:[{q:"What does the heart do?",opts:["Breathe","Pump blood","Think","Digest"],ans:1},{q:"How many bones are in the body?",opts:["100","150","206","300"],ans:2},{q:"Which part controls everything?",opts:["Heart","Lungs","Stomach","Brain"],ans:3}],
+      explore:["How do muscles work?","Why do we need to sleep?","How does food give energy?"]
+    },
+    hi:{
+      text:"आपका शरीर अब तक की सबसे अद्भुत मशीन है! सभी अंग मिलकर काम करते हैं ताकि आप दौड़, सोच, खा और महसूस कर सकें।",
+      visTitle:"शरीर के मुख्य अंग",visBg:"#FFEBEE",visType:"imgcards",
+      cards:[{icon:"🧠",lbl:"मस्तिष्क",sub:"सब कुछ नियंत्रित करता है"},{icon:"❤️",lbl:"हृदय",sub:"खून पंप करता है"},{icon:"🫁",lbl:"फेफड़े",sub:"सांस लेने में मदद"},{icon:"🦴",lbl:"हड्डियाँ",sub:"शरीर को आकार देती हैं"}],
+      facts:[{e:"❤️",t:"आपका दिल हर दिन 1 लाख बार धड़कता है — बिना रुके!"},{e:"🦴",t:"आपके शरीर में 206 हड्डियाँ हैं।"},{e:"🧠",t:"आपका दिमाग हमेशा काम करता है — नींद में भी!"}],
+      quizzes:[{q:"दिल क्या करता है?",opts:["सांस लेता है","खून पंप करता है","सोचता है","खाना पचाता है"],ans:1},{q:"शरीर में कितनी हड्डियाँ हैं?",opts:["100","150","206","300"],ans:2},{q:"कौन सा अंग सब कुछ नियंत्रित करता है?",opts:["हृदय","फेफड़े","पेट","मस्तिष्क"],ans:3}],
+      explore:["मांसपेशियाँ कैसे काम करती हैं?","नींद क्यों ज़रूरी है?","खाना ऊर्जा कैसे देता है?"]
+    },
+    gu:{
+      text:"તમારું શરીર અત્યાર સુધીની સૌથી અદ્ભૂત મશીન છે! બધા અવયવો મળીને કામ કરે છે.",
+      visTitle:"શરીરના મહત્ત્વના ભાગો",visBg:"#FFEBEE",visType:"imgcards",
+      cards:[{icon:"🧠",lbl:"મગજ",sub:"બધું નિયંત્રિત કરે"},{icon:"❤️",lbl:"હૃદય",sub:"લોહી પમ્પ કરે"},{icon:"🫁",lbl:"ફેફસાં",sub:"શ્વાસ લે"},{icon:"🦴",lbl:"હાડકા",sub:"આકાર આપે"}],
+      facts:[{e:"❤️",t:"તમારું હૃદય દરરોજ 1 લાખ વખત ધબકે છે — રોક્યા વગર!"},{e:"🦴",t:"તમારા શરીરમાં 206 હાડકા છે."},{e:"🧠",t:"તમારું મગજ હંમેશા કામ કરે છે — ઊઘમાં પણ!"}],
+      quizzes:[{q:"હૃદય શું કરે?",opts:["શ્વાસ લે","લોહી પમ્પ કરે","વિચારે","ખોરાક પચાવે"],ans:1},{q:"શરીરમાં કેટલા હાડકા?",opts:["100","150","206","300"],ans:2},{q:"કયો ભાગ બધું નિયંત્રિત કરે?",opts:["હૃદય","ફેફસાં","પેટ","મગજ"],ans:3}],
+      explore:["સ્નાયુઓ કેવી રીતે કામ કરે?","ઊઘ કેમ જરૂરી?","ખોરાક ઊર્જા કેવી રીતે?"]
+    }
+  },
+  space:{
+    color:"#4ECDC4",icon:"🚀",
+    en:{
+      text:"Space is everything beyond our sky — and it is HUGE! Billions of stars, planets, and moons. Our home planet Earth travels around the Sun.",
+      visTitle:"Things in our solar system",visBg:"#E0F7F6",visType:"imgcards",
+      cards:[{icon:"🌍",lbl:"Earth",sub:"Our home"},{icon:"☀️",lbl:"The Sun",sub:"Gives us light"},{icon:"🌕",lbl:"The Moon",sub:"Orbits Earth"},{icon:"⭐",lbl:"Stars",sub:"Balls of fire"}],
+      facts:[{e:"☀️",t:"The Sun is a giant ball of hot gas giving us light and warmth."},{e:"🌍",t:"Earth takes 365 days — one year — to go around the Sun."},{e:"🌌",t:"There are more stars than grains of sand on all Earth's beaches!"}],
+      quizzes:[{q:"What is the name of our planet?",opts:["Mars","Venus","Earth","Jupiter"],ans:2},{q:"How long does Earth orbit the Sun?",opts:["1 month","100 days","365 days","7 days"],ans:2},{q:"What gives us light and warmth?",opts:["Moon","Stars","Clouds","The Sun"],ans:3}],
+      explore:["How many planets are there?","What is a black hole?","Could people live on Mars?"]
+    },
+    hi:{
+      text:"अंतरिक्ष हमारे आकाश से परे सब कुछ है — और यह बहुत विशाल है! अरबों तारे, ग्रह और चाँद। हमारी धरती सूरज के चारों ओर घूमती है।",
+      visTitle:"हमारे सौर मंडल में",visBg:"#E0F7F6",visType:"imgcards",
+      cards:[{icon:"🌍",lbl:"पृथ्वी",sub:"हमारा घर"},{icon:"☀️",lbl:"सूर्य",sub:"प्रकाश देता है"},{icon:"🌕",lbl:"चाँद",sub:"पृथ्वी का चक्कर"},{icon:"⭐",lbl:"तारे",sub:"आग के गोले"}],
+      facts:[{e:"☀️",t:"सूरज गर्म गैस का एक विशाल गोला है जो हमें रोशनी और गर्मी देता है।"},{e:"🌍",t:"पृथ्वी को सूरज का एक चक्कर लगाने में 365 दिन लगते हैं।"},{e:"🌌",t:"अंतरिक्ष में धरती के सभी समुद्र तटों की रेत से ज़्यादा तारे हैं!"}],
+      quizzes:[{q:"हमारे ग्रह का नाम क्या है?",opts:["मंगल","शुक्र","पृथ्वी","बृहस्पति"],ans:2},{q:"पृथ्वी सूर्य का चक्कर कितने दिन में लगाती है?",opts:["1 महीना","100 दिन","365 दिन","7 दिन"],ans:2},{q:"हमें रोशनी और गर्मी कौन देता है?",opts:["चाँद","तारे","बादल","सूरज"],ans:3}],
+      explore:["कितने ग्रह हैं?","ब्लैक होल क्या है?","क्या मंगल पर जीवन हो सकता है?"]
+    },
+    gu:{
+      text:"અવકાશ આપણા આકાશ ઉપરાંત બધું જ છે — અને ખૂબ વિશાળ છે! અબજો તારા, ગ્રહો અને ચંદ્ર. આપણી પૃથ્વી સૂર્ય ફરતે ફરે છે.",
+      visTitle:"આપણા સૌરમંડળમાં",visBg:"#E0F7F6",visType:"imgcards",
+      cards:[{icon:"🌍",lbl:"પૃથ્વી",sub:"આપણું ઘર"},{icon:"☀️",lbl:"સૂર્ય",sub:"પ્રકાશ આપે"},{icon:"🌕",lbl:"ચંદ્ર",sub:"પૃથ્વી ફરતે"},{icon:"⭐",lbl:"તારા",sub:"આગના ગોળા"}],
+      facts:[{e:"☀️",t:"સૂર્ય ગરમ ગેસનો વિશાળ ગોળો છે જે પ્રકાશ અને ઉષ્મા આપે."},{e:"🌍",t:"પૃથ્વીને સૂર્ય ફરતે ફરવા 365 દિવસ — એક વર્ષ — લાગે."},{e:"🌌",t:"અવકાશમાં બધા દરિયા કિનારાની રેત કરતાં વધારે તારા છે!"}],
+      quizzes:[{q:"આપણા ગ્રહનું નામ?",opts:["મંગળ","શુક્ર","પૃથ્વી","ગુરુ"],ans:2},{q:"પૃથ્વી સૂર્ય ફરતે કેટલા દિવસ?",opts:["1 મહિનો","100 દિવસ","365 દિવસ","7 દિવસ"],ans:2},{q:"પ્રકાશ અને ઉષ્મા કોણ?",opts:["ચંદ્ર","તારા","વાદળ","સૂર્ય"],ans:3}],
+      explore:["કેટલા ગ્રહ છે?","બ્લૅક હોલ શું?","મંગળ પર જીવન?"]
+    }
+  },
+  water:{
+    color:"#85C1E9",icon:"💧",
+    en:{
+      text:"Water is one of the most important things on Earth — every living thing needs it! Water can be liquid (rivers), solid (ice), or gas (steam).",
+      visTitle:"The water cycle",visBg:"#EAF6FF",visType:"steps",stepColor:"#4A90D9",
+      steps:[{t:"Water in oceans",s:""},{t:"Sun heats water",s:""},{t:"Rises as vapour",s:""},{t:"Forms clouds",s:""},{t:"Falls as rain",s:""}],
+      facts:[{e:"🌊",t:"About 71% of Earth's surface is covered in water."},{e:"🧊",t:"Water becomes ice at 0 degrees Celsius."},{e:"🥤",t:"Our bodies are about 60% water — drink every day!"}],
+      quizzes:[{q:"What % of Earth is water?",opts:["30%","50%","71%","90%"],ans:2},{q:"At what temp does water freeze?",opts:["10°C","5°C","100°C","0°C"],ans:3},{q:"What are the 3 forms of water?",opts:["Liquid only","Liquid, solid, gas","Hot, cold, warm","Rain, river, sea"],ans:1}],
+      explore:["Why is sea water salty?","What is the water cycle?","Where does rain come from?"]
+    },
+    hi:{
+      text:"पानी धरती की सबसे महत्वपूर्ण चीज़ों में से एक है — हर जीव को इसकी ज़रूरत है! पानी तरल, ठोस (बर्फ) या गैस (भाप) हो सकता है।",
+      visTitle:"जल चक्र",visBg:"#EAF6FF",visType:"steps",stepColor:"#4A90D9",
+      steps:[{t:"समुद्र में पानी",s:""},{t:"सूरज गर्म करता है",s:""},{t:"भाप ऊपर उठती है",s:""},{t:"बादल बनते हैं",s:""},{t:"बारिश होती है",s:""}],
+      facts:[{e:"🌊",t:"पृथ्वी की 71% सतह पानी से ढकी है।"},{e:"🧊",t:"पानी 0 डिग्री सेल्सियस पर बर्फ बन जाता है।"},{e:"🥤",t:"हमारा शरीर 60% पानी है — रोज़ पानी पिएं!"}],
+      quizzes:[{q:"पृथ्वी की कितनी सतह पानी है?",opts:["30%","50%","71%","90%"],ans:2},{q:"पानी किस तापमान पर जमता है?",opts:["10°C","5°C","100°C","0°C"],ans:3},{q:"पानी के 3 रूप कौन से हैं?",opts:["केवल तरल","तरल, ठोस, गैस","गर्म, ठंडा, गुनगुना","बारिश, नदी, समुद्र"],ans:1}],
+      explore:["समुद्र का पानी नमकीन क्यों?","जल चक्र क्या है?","बारिश कहाँ से आती है?"]
+    },
+    gu:{
+      text:"પાણી પૃથ્વી પરની સૌથી મહત્ત્વની વસ્તુઓ પૈકીની છે — દરેક જીવ માટે જરૂરી! પાણી પ્રવાહી, ઘન (બરફ) અથવા ગેસ (વરાળ) સ્વરૂપ ધારણ કરી શકે.",
+      visTitle:"જળ ચક્ર",visBg:"#EAF6FF",visType:"steps",stepColor:"#4A90D9",
+      steps:[{t:"સમુદ્રમાં પાણી",s:""},{t:"સૂર્ય ગરમ કરે",s:""},{t:"વરાળ ઉપર જાય",s:""},{t:"વાદળ બને",s:""},{t:"વરસાદ પડે",s:""}],
+      facts:[{e:"🌊",t:"પૃથ્વીની 71% સપાટી પાણીથી ઢંકાઈ છે."},{e:"🧊",t:"પાણી 0 ડિગ્રી સેલ્સિયસ પર બરફ બને."},{e:"🥤",t:"આપણું શરીર 60% પાણી છે — રોજ પાણી પીઓ!"}],
+      quizzes:[{q:"પૃથ્વીની કેટલી સપાટી પાણી?",opts:["30%","50%","71%","90%"],ans:2},{q:"પાણી ક્યા તાપ પર જામે?",opts:["10°C","5°C","100°C","0°C"],ans:3},{q:"પાણીના 3 સ્વરૂપ?",opts:["ફક્ત પ્રવાહી","પ્રવાહી, ઘન, ગેસ","ગરમ, ઠંડુ, ઊના","વરસાદ, નદી, સમુદ્ર"],ans:1}],
+      explore:["દરિયો ખારો કેમ?","જળ ચક્ર શું?","વરસાદ ક્યાંથી?"]
+    }
+  },
+  colours:{
+    color:"#FF9FB2",icon:"🎨",
+    en:{
+      text:"Colours make the world beautiful! There are three primary colours — red, blue, and yellow. Mixing them makes secondary colours!",
+      visTitle:"Mix colours to get new ones!",visBg:"#FFF0F3",visType:"pills",pillColor:"#FF9FB222",textColor:"#7B0025",
+      pills:["🔴 Red + 🔵 Blue = 🟣 Purple","🔵 Blue + 🟡 Yellow = 🟢 Green","🔴 Red + 🟡 Yellow = 🟠 Orange"],
+      facts:[{e:"🌈",t:"A rainbow has 7 colours: red, orange, yellow, green, blue, indigo, violet."},{e:"☀️",t:"White light contains ALL the rainbow colours mixed together."},{e:"🐕",t:"Dogs cannot see as many colours as humans can."}],
+      quizzes:[{q:"What are the 3 primary colours?",opts:["Green, orange, purple","Red, blue, yellow","Pink, white, black","Brown, grey, red"],ans:1},{q:"What do red and blue make?",opts:["Green","Orange","Purple","Brown"],ans:2},{q:"How many colours in a rainbow?",opts:["5","6","7","8"],ans:2}],
+      explore:["Why is the sky blue?","What causes a rainbow?","How do we see colours?"]
+    },
+    hi:{
+      text:"रंग दुनिया को खूबसूरत बनाते हैं! तीन प्राथमिक रंग हैं — लाल, नीला और पीला। इन्हें मिलाने पर नए रंग बनते हैं!",
+      visTitle:"रंग मिलाओ — नए रंग पाओ!",visBg:"#FFF0F3",visType:"pills",pillColor:"#FF9FB222",textColor:"#7B0025",
+      pills:["🔴 लाल + 🔵 नीला = 🟣 बैंगनी","🔵 नीला + 🟡 पीला = 🟢 हरा","🔴 लाल + 🟡 पीला = 🟠 नारंगी"],
+      facts:[{e:"🌈",t:"इंद्रधनुष में 7 रंग: लाल, नारंगी, पीला, हरा, नीला, जामुनी, बैंगनी।"},{e:"☀️",t:"सफ़ेद रोशनी में इंद्रधनुष के सभी रंग मिले होते हैं।"},{e:"🐕",t:"कुत्ते इंसानों जितने रंग नहीं देख पाते।"}],
+      quizzes:[{q:"तीन प्राथमिक रंग कौन से हैं?",opts:["हरा, नारंगी, बैंगनी","लाल, नीला, पीला","गुलाबी, सफ़ेद, काला","भूरा, ग्रे, लाल"],ans:1},{q:"लाल और नीला मिलाने से क्या बनता है?",opts:["हरा","नारंगी","बैंगनी","भूरा"],ans:2},{q:"इंद्रधनुष में कितने रंग होते हैं?",opts:["5","6","7","8"],ans:2}],
+      explore:["आकाश नीला क्यों है?","इंद्रधनुष क्यों बनता है?","हम रंग कैसे देखते हैं?"]
+    },
+    gu:{
+      text:"રંગો દુનિયાને સુંદર બનાવે! ત્રણ પ્રાથમિક રંગ છે — લાલ, વાદળી અને પીળો. ભેળવ્યે નવા રંગ મળે!",
+      visTitle:"રંગ ભેળવો — નવો રંગ!",visBg:"#FFF0F3",visType:"pills",pillColor:"#FF9FB222",textColor:"#7B0025",
+      pills:["🔴 લાલ + 🔵 વાદળી = 🟣 જાંબુડો","🔵 વાદળી + 🟡 પીળો = 🟢 લીલો","🔴 લાલ + 🟡 પીળો = 🟠 નારંગી"],
+      facts:[{e:"🌈",t:"ઇન્દ્રધનુષ્યમાં 7 રંગ: લાલ, નારંગી, પીળો, લીલો, વાદળી, ઇન્ડિગો, જાંબુડો."},{e:"☀️",t:"સફેદ પ્રકાશમાં ઇન્દ્રધનુષ્યના બધા રંગ ભળેલા છે."},{e:"🐕",t:"કૂતરા માણસ જેટલા રંગ જોઈ શકતા નથી."}],
+      quizzes:[{q:"ત્રણ પ્રાથમિક રંગ?",opts:["લીલો, નારંગી, જાંબુ","લાલ, વાદળી, પીળો","ગુલાબી, સફેદ, કાળો","ભૂરો, રાખ, લાલ"],ans:1},{q:"લાલ + વાદળી = ?",opts:["લીલો","નારંગી","જાંબુડો","ભૂરો"],ans:2},{q:"ઇન્દ્રધનુષ્યમાં કેટલા રંગ?",opts:["5","6","7","8"],ans:2}],
+      explore:["આકાશ વાદળી કેમ?","ઇન્દ્રધનુષ્ય કેમ?","આપણે રંગ કેવી રીતે જોઈ?"]
+    }
+  }
+};
+
+// ─── STATE ─────────────────────────────────────────────────────────────────
+let lang = 'en';
+let currentTopic = null;
+let currentQuizIdx = 0;
+let quizAnswered = false;
+let state = { stars:0, topicsLearned:new Set(), quizzesRight:0 };
+
+// ─── LANG SWITCH ───────────────────────────────────────────────────────────
+function setLang(l) {
+  lang = l;
+  ['en','hi','gu'].forEach(x => document.getElementById('lb-'+x).classList.toggle('active', x===l));
+  applyTranslations();
+  renderTopicGrid();
+  if (currentTopic) openLesson(currentTopic);
+}
+
+function applyTranslations() {
+  const t = T[lang];
+  document.getElementById('appTitle').textContent = t.appTitle;
+  document.getElementById('appSubtitle').textContent = t.appSub;
+  document.getElementById('heroTitle').textContent = t.heroTitle;
+  document.getElementById('heroSub').textContent = t.heroSub;
+  document.getElementById('chooseLabel').textContent = t.chooseLabel;
+  document.getElementById('teacherTag').textContent = t.teacherTag;
+  document.getElementById('factsHdr').textContent = t.factsHdr;
+  document.getElementById('quizHdr').textContent = t.quizHdr;
+  document.getElementById('exploreHdr').textContent = t.exploreHdr;
+  document.getElementById('nextQBtn').textContent = t.nextBtn;
+  document.getElementById('nl-home').textContent = t.navHome;
+  document.getElementById('nl-quiz').textContent = t.navQuiz;
+  document.getElementById('nl-prog').textContent = t.navProg;
+  const nlAbout = document.getElementById('nl-about');
+  if(nlAbout) nlAbout.textContent = t.navAbout;
+  document.getElementById('quizScreenTitle').textContent = t.quizScreenTitle;
+  document.getElementById('quizScreenSub').textContent = t.quizScreenSub;
+  document.getElementById('progTitle').textContent = t.progTitle;
+  document.getElementById('badgesLabel').textContent = t.badgesLabel;
+  document.getElementById('pTopicsL').textContent = t.pTopicsL;
+  document.getElementById('pStarsL').textContent = t.pStarsL;
+  document.getElementById('pRightL').textContent = t.pRightL;
+  document.getElementById('pBadgesL').textContent = t.pBadgesL;
+  t.badgeNames.forEach((n,i) => document.getElementById('bn'+i).textContent = n);
+}
+
+// ─── TOPIC GRID ────────────────────────────────────────────────────────────
+function renderTopicGrid() {
+  const t = T[lang];
+  document.getElementById('topicGrid').innerHTML = Object.entries(LESSONS).map(([k,v]) =>
+    `<div class="topic-card" style="border-color:${v.color}" onclick="openLesson('${k}')">
+      <span class="ti">${v.icon}</span>
+      <div class="tn">${t.topics[k].name}</div>
+    </div>`
+  ).join('');
+}
+
+// ─── LESSON ────────────────────────────────────────────────────────────────
+function openLesson(key) {
+  currentTopic = key; currentQuizIdx = 0; quizAnswered = false;
+  state.topicsLearned.add(key);
+  state.stars += 1; updateStars();
+
+  const L = LESSONS[key];
+  const d = L[lang];
+
+  document.getElementById('homeScreen').style.display = 'none';
+  document.getElementById('lessonScreen').style.display = 'block';
+  document.getElementById('lessonScreen').classList.add('pop-in');
+
+  document.getElementById('lessonBadge').textContent = L.icon + ' ' + T[lang].topics[key].name;
+  document.getElementById('lessonBadge').style.background = L.color;
+  document.getElementById('teacherText').textContent = d.text;
+
+  // Visual
+  const vc = document.getElementById('visContent');
+  const vcard = document.getElementById('visualCard');
+  vcard.style.background = d.visBg;
+  document.getElementById('visTitle').textContent = d.visTitle;
+  document.getElementById('visTitle').style.color = L.color;
+
+  if (d.visType === 'imgcards') {
+    vc.innerHTML = `<div class="img-grid">${d.cards.map(c =>
+      `<div class="img-cell"><span class="big">${c.icon}</span>
+       <div class="lbl" style="color:${L.color}">${c.lbl}</div>
+       ${c.sub ? `<div class="lbl-sub">${c.sub}</div>` : ''}</div>`
+    ).join('')}</div>`;
+  } else if (d.visType === 'steps') {
+    vc.innerHTML = `<div class="steps-col">${d.steps.map((s,i) =>
+      `<div class="step-row">
+        <div class="step-n" style="background:${d.stepColor}">${i+1}</div>
+        <div class="step-t">${s.t}${s.s ? `<small>${s.s}</small>` : ''}</div>
+      </div>`
+    ).join('')}</div>`;
+  } else if (d.visType === 'pills') {
+    vc.innerHTML = `<div class="pills-wrap">${d.pills.map(p =>
+      `<span class="pill-item" style="background:${d.pillColor};color:${d.textColor}">${p}</span>`
+    ).join('')}</div>`;
+  }
+
+  // Facts
+  document.getElementById('factsContent').innerHTML = d.facts.map(f =>
+    `<div class="fact-row"><span class="fe">${f.e}</span><div class="ft">${f.t}</div></div>`
+  ).join('');
+
+  loadQuiz(key, 0);
+
+  // Explore
+  document.getElementById('exploreContent').innerHTML = d.explore.map(q =>
+    `<button class="exp-btn" onclick="exploreMore(this,'${q.replace(/'/g,"\\'")}')">
+      <span>${q}</span><span>↗</span></button>`
+  ).join('');
+}
+
+function loadQuiz(key, idx) {
+  const d = LESSONS[key][lang];
+  const q = d.quizzes[idx];
+  quizAnswered = false;
+  document.getElementById('quizQ').textContent = q.q;
+  document.getElementById('quizResult').className = 'quiz-result';
+  document.getElementById('nextQBtn').className = 'next-q-btn';
+  document.getElementById('quizOpts').innerHTML = q.opts.map((o,i) =>
+    `<button class="q-opt" onclick="answerQuiz(${i})" id="qo${i}">
+      <span style="font-size:14px">${['🅐','🅑','🅒','🅓'][i]}</span>${o}</button>`
+  ).join('');
+}
+
+function answerQuiz(chosen) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = LESSONS[currentTopic][lang].quizzes[currentQuizIdx];
+  const res = document.getElementById('quizResult');
+  const nb = document.getElementById('nextQBtn');
+  const t = T[lang];
+  if (chosen === q.ans) {
+    document.getElementById('qo'+chosen).classList.add('correct');
+    res.textContent = t.winMsg;
+    res.className = 'quiz-result show win';
+    state.stars += 2; state.quizzesRight++; updateStars();
+  } else {
+    document.getElementById('qo'+chosen).classList.add('wrong');
+    document.getElementById('qo'+q.ans).classList.add('correct');
+    res.textContent = t.loseMsg;
+    res.className = 'quiz-result show lose';
+  }
+  if (currentQuizIdx < LESSONS[currentTopic][lang].quizzes.length - 1) nb.className = 'next-q-btn show';
+}
+
+function nextQuiz() { currentQuizIdx++; loadQuiz(currentTopic, currentQuizIdx); }
+
+function exploreMore(btn, q) {
+  btn.style.background = '#EEF6FF';
+  btn.style.borderColor = '#4A90D9';
+  setTimeout(() => { btn.style.background = ''; btn.style.borderColor = ''; }, 600);
+  alert('Great question!\n\n"' + q + '"\n\nAsk your teacher or search this question to learn more! 📚');
+}
+
+function updateStars() { document.getElementById('starCount').textContent = state.stars; }
+
+// ─── NAV ──────────────────────────────────────────────────────────────────
+function showNav(tab) {
+  ['homeScreen','lessonScreen','quizScreen','progressScreen','aboutScreen'].forEach(s =>
+    document.getElementById(s).style.display = 'none');
+  ['home','quiz','progress','about'].forEach(n => {
+    const el = document.getElementById('nav-'+n);
+    if(el) el.classList.remove('active');
+  });
+  const activeNav = document.getElementById('nav-'+tab);
+  if(activeNav) activeNav.classList.add('active');
+  if (tab === 'home') { document.getElementById('homeScreen').style.display = 'block'; }
+  if (tab === 'quiz') { renderQuizHome(); document.getElementById('quizScreen').style.display = 'block'; }
+  if (tab === 'progress') { renderProgress(); document.getElementById('progressScreen').style.display = 'block'; }
+  if (tab === 'about') { document.getElementById('aboutScreen').style.display = 'block'; }
+}
+
+function goHome() {
+  document.getElementById('lessonScreen').style.display = 'none';
+  document.getElementById('homeScreen').style.display = 'block';
+  document.getElementById('nav-home').classList.add('active');
+  document.getElementById('nav-quiz').classList.remove('active');
+  document.getElementById('nav-progress').classList.remove('active');
+}
+
+function renderQuizHome() {
+  const t = T[lang];
+  document.getElementById('quizTopicList').innerHTML = Object.entries(LESSONS).map(([k,v]) =>
+    `<button class="q-topic-item" onclick="openLesson('${k}');showNav('home');document.getElementById('homeScreen').style.display='none';document.getElementById('lessonScreen').style.display='block'">
+      <span class="q-ti">${v.icon}</span>
+      <div><div class="q-tn">${t.topics[k].name}</div>
+      <div class="q-tc">${v[lang].quizzes.length} ${lang==='hi'?'सवाल':lang==='gu'?'સવાલ':'questions'}</div></div>
+    </button>`
+  ).join('');
+}
+
+function renderProgress() {
+  document.getElementById('pTopics').textContent = state.topicsLearned.size;
+  document.getElementById('pStars').textContent = state.stars;
+  document.getElementById('pRight').textContent = state.quizzesRight;
+  const b = Math.min(4, Math.floor(state.stars / 5));
+  document.getElementById('pBadges').textContent = b;
+  for (let i = 0; i < 4; i++) document.getElementById('b'+i).classList.toggle('locked', i >= b);
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────
+renderTopicGrid();
+applyTranslations();
+</script>
+</body>
+</html>
